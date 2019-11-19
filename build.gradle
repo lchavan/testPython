@@ -3,20 +3,19 @@ buildscript {
 		// NOTE: Version 2.0.0 of Spring Boot changed the task name used to create a bootable jar from 'bootRepackage'
 		// to 'bootJar'. If version 1.5 or below are used, the file 'gradle/publish.gradle' will need to be updated
 		// so the 'artifactoryPublish' task depends on 'bootRepackage', rather than 'bootJar'.
-		springBootVersion = '2.1.7.RELEASE'
-		guavaVersion = '24.0-jre'
-		commonsVersion = '4.1'
+		springBootVersion = '2.2.1.RELEASE'
 		groovyVersion = '2.4.13'
 		spockVersion = '1.1-groovy-2.4'
 	}
 	repositories {
 		maven { url 'https://repo1.uhc.com/artifactory/repo' }
+		maven { url 'https://plugins.gradle.org/m2/' }
 	}
 	dependencies {
 		classpath(
-			'gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.19.2',
-			'gradle.plugin.org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:1.4.2',
-			'io.franzbecker:gradle-lombok:1.11',
+			'com.palantir.gradle.docker:gradle-docker:0.22.1',
+			'org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:2.2.1',
+			'io.franzbecker:gradle-lombok:3.2.0',
 			'net.researchgate:gradle-release:2.6.0',
 			'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.0',
 			'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1',
