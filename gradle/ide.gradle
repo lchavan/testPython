@@ -1,7 +1,6 @@
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'io.franzbecker.gradle-lombok'
-
+apply plugin: 'io.freefair.lombok'
 
 def gitIgnore = file(".gitignore").readLines()
 def gitIgnoreDirs = gitIgnore*.trim().findAll { !it.startsWith("#") && it.endsWith("/") }
@@ -22,6 +21,5 @@ idea {
 }
 
 lombok {
-	version = '1.16.20'
-	sha256 = ""
+	version = "1.18.10"
 }

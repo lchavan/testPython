@@ -9,6 +9,8 @@ import lombok.Data;
 public class TemplateModel {
     /**
      * Model ID attribute.
+     * @param id ID for model
+     * @return Long
      */
     private Long id;
 }

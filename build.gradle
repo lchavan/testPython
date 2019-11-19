@@ -15,7 +15,7 @@ buildscript {
 		classpath(
 			'com.palantir.gradle.docker:gradle-docker:0.22.1',
 			'org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:2.2.1',
-			'io.franzbecker:gradle-lombok:3.2.0',
+			'io.freefair.gradle:lombok-plugin:4.1.4', // This is the plugin recommended on lombok project site
 			'net.researchgate:gradle-release:2.6.0',
 			'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.0',
 			'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1',
@@ -45,8 +45,8 @@ apply from: 'gradle/publish.gradle'
 apply from: 'gradle/release.gradle'
 
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11.0
+targetCompatibility = 11.0
 
 group = 'com.optum.ct'
 
