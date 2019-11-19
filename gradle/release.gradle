@@ -1,0 +1,14 @@
+
+apply plugin: 'net.researchgate.release'
+
+release {
+	failOnUnversionedFiles = false
+
+	git {
+		commitVersionFileOnly = true
+	}
+}
+
+// Run 'artifactoryPublish', 'docker', 'dockerTagLatest', 'dockerPush', and 'dockerPushLatest' after executing the
+// release phase
+afterReleaseBuild.dependsOn 'artifactoryPublish', 'docker', 'dockerTagLatest', 'dockerPush', 'dockerPushLatest'

@@ -1,0 +1,21 @@
+
+
+### This file contains all default configurations that are common across profiles. ###
+
+
+# By default, Spring sets profiles using the property 'spring.profiles.active', e.g. '-Dspring.profiles.active=dev'.
+# Adding the ${env:dev} allows us to set the Spring profile using the variable 'env', e.g. '-Denv=dev', and declares the
+# profile we run by default to 'dev'.
+#
+# Additional profiles can be found in the resources/config/ directory. Currently, the following profiles are available:
+#  * dev      OpenShift development environment
+#  * local    Local development environment
+#  * prod     OpenShift production environment
+spring:
+  application:
+    name: spring-base-template
+  profiles:
+    active: ${env:local}
+
+logging:
+  file: /var/log/app.log

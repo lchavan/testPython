@@ -1,0 +1,85 @@
+buildscript {
+	ext {
+		// NOTE: Version 2.0.0 of Spring Boot changed the task name used to create a bootable jar from 'bootRepackage'
+		// to 'bootJar'. If version 1.5 or below are used, the file 'gradle/publish.gradle' will need to be updated
+		// so the 'artifactoryPublish' task depends on 'bootRepackage', rather than 'bootJar'.
+		springBootVersion = '2.1.7.RELEASE'
+		guavaVersion = '24.0-jre'
+		commonsVersion = '4.1'
+		groovyVersion = '2.4.13'
+		spockVersion = '1.1-groovy-2.4'
+	}
+	repositories {
+		maven { url 'https://repo1.uhc.com/artifactory/repo' }
+	}
+	dependencies {
+		classpath(
+			'gradle.plugin.com.palantir.gradle.docker:gradle-docker:0.19.2',
+			'gradle.plugin.org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:1.4.2',
+			'io.franzbecker:gradle-lombok:1.11',
+			'net.researchgate:gradle-release:2.6.0',
+			'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.0',
+			'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1',
+			"org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+		)
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+// Gradle scripts for providing CI/CD functionality. Comment them out as needed, based on project requirements.
+apply from: 'gradle/acceptanceTest.gradle'
+apply from: 'gradle/docker.gradle'
+apply from: 'gradle/ide.gradle'
+apply from: 'gradle/integrationTest.gradle'
+apply from: 'gradle/reports.gradle'
+apply from: 'gradle/sourceJars.gradle'
+apply from: 'gradle/fortify.gradle'
+
+// Depends on artifacts built in sourceJars, so this plugin must be applied afterwards
+apply from: 'gradle/publish.gradle'
+
+// Depends on tasks defined in docker and publish scripts, so this plugin must be applied after those two.
+apply from: 'gradle/release.gradle'
+
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = 'com.optum.ct'
+
+description = """
+This application provides a template for building microservices using Spring Boot.
+It provides a fully functional CI/CD pipeline, Docker builds, deployments to the
+Dev environment, reporting, versioning, and libraries common to applications as well
+as unit and integration testing.
+"""
+
+repositories {
+	mavenLocal()
+	maven { url 'https://repo1.uhc.com/artifactory/repo' }
+}
+
+dependencies {
+	compile(
+		'org.springframework.boot:spring-boot-starter-actuator',
+		'org.springframework.boot:spring-boot-starter-logging',
+		'org.springframework.boot:spring-boot-starter-web',
+	)
+
+	runtime('org.springframework.boot:spring-boot-devtools')
+
+	testCompile(
+		'org.springframework.boot:spring-boot-starter-test',
+		"org.codehaus.groovy:groovy-all:$groovyVersion",
+		"org.spockframework:spock-core:$spockVersion",
+		"org.spockframework:spock-spring:$spockVersion",
+	)
+}
+
+springBoot {
+	buildInfo()
+}

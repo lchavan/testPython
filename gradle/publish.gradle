@@ -1,0 +1,48 @@
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.artifactory'
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+
+			// Includes artifacts produced in the 'sourceJars' Gradle script
+			artifact sourcesJar
+			artifact javadocJar
+		}
+	}
+
+	// Add local Maven repository (typically found in ~/.m2/) to the publishable repositories. Useful for locally
+	// publishing things like libraries, which can then be integrated in our applications as a normal dependency,
+	// without having to push the artifact to Artifactory.
+	repositories {
+		mavenLocal()
+	}
+}
+
+artifactory {
+	contextUrl = 'https://repo1.uhc.com/artifactory'
+
+	publish {
+		repository {
+			// Releases should go to the UHG-Releases repository; snapshots to the UHG-Snapshots repository.
+			repoKey = version.endsWith('SNAPSHOT') ? 'UHG-Snapshots' : 'UHG-Releases'
+
+			// Username and password are supplied via environment variables.
+			// During a Jenkins build, the username and password would be for a NUID used for building / publishing;
+			// if running locally, a developer can use their own Artifactory credentials by supplying their username
+			// and password when running the Gradle task, e.g.:
+			//
+			// ./gradlew -Partifactory_user=myUserName -Partifactory_password=myPassword artifactoryPublish
+			username = "${artifactory_user}"
+			password = "${artifactory_password}"
+			maven = true
+		}
+		defaults {
+			publications 'mavenJava'
+		}
+	}
+}
+
+// task 'bootJar' is a Spring Boot 2.0.0 task; use 'bootRepackage' instead for Spring Boot versions 1.5 and below.
+artifactoryPublish.dependsOn('bootJar', 'sourcesJar')

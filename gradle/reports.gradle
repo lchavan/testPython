@@ -1,0 +1,26 @@
+apply plugin: 'jacoco'
+apply plugin: 'org.sonarqube'
+
+ext {
+	// exclude all source files from Sonar code coverage within the template/ package, which
+	// excludes everything, since don't care about code coverage in a base template project.
+	jacocoExclusions = '**/template/**/*'
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled = false
+	}
+}
+
+check.dependsOn jacocoTestReport
+
+sonarqube {
+	properties {
+		// Overridden in Jenkinsfile to point to Optum's Sonarqube server
+		property 'sonar.host.url', 'http://localhost:9000'
+
+		property 'sonar.coverage.exclusions', jacocoExclusions
+		property "sonar.jacoco.reportPaths", "$buildDir/jacoco/integrationTest.exec"
+	}
+}

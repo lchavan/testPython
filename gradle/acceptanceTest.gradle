@@ -1,0 +1,10 @@
+apply plugin: 'org.unbroken-dome.test-sets'
+
+testSets {
+	acceptanceTest { dirName = 'acceptance-test' }
+}
+
+/*
+ * This is a Test Stub for executing acceptance tests.
+ * TODO: Implement test runner
+ */

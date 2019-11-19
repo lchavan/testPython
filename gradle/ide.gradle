@@ -1,0 +1,27 @@
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'io.franzbecker.gradle-lombok'
+
+
+def gitIgnore = file(".gitignore").readLines()
+def gitIgnoreDirs = gitIgnore*.trim().findAll { !it.startsWith("#") && it.endsWith("/") }
+
+idea {
+	project {
+		jdkName "1.8"
+		configure(modules) {
+			excludeDirs = files(gitIgnoreDirs) as Set
+		}
+		ipr {
+			withXml { provider ->
+				def node = provider.asNode()
+				node.component.find { it.'@name' == 'VcsDirectoryMappings' }?.mapping[0].'@vcs' = 'Git'
+			}
+		}
+	}
+}
+
+lombok {
+	version = '1.16.20'
+	sha256 = ""
+}
