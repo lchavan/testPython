@@ -1,10 +1,19 @@
-# Spring-Boot microservice base application template
+# Spring-Boot microservice base application template (v5)
  This repository contains the base setup for a new microservice with base configurations 
  for Spring-Boot, Gradle, Jenkins and Docker. 
  
  Spring-Boot defines a default architecture for the application with stateless services and models
  to encapsulate the application state. Example classes for the architecture are included in this 
  template.
+ 
+ This template is named **v5** because it is compatible with Gradle version 5.
+
+### Java SDK prerequcites
+This template assumes that Java 11 SDK will be used. You may install Java 11 SDK from AppStore. It is possible to have Java 8 installed side by side.
+
+Gradlew script uses JAVA_HOME to find the java binary to use so make sure your JAVA_HOME is pointing the corresponding SDK directory when using Gradle command line.
+
+Make sure your IntelliJ IDEA installation has Java 11 SDK added to Global SDK and make sure that Lombok plugin in installed.
 
 ### Common Files and Folders:
 * **build.gradle** – Project build script
@@ -26,6 +35,15 @@
 * **com.optum.ct._\<service name\>_.repository** - Repository interfaces
 * **com.optum.ct._\<service name\>_.util** - Utility classes
 
+## Creating IntelliJ IDEA project
+
+* In IntelliJ go to File>New>Project from Existing Sources..
+* Select the project directory
+* Keep "(*) Import project from external model" checked and selected to Gradle. Click Finish
+
+Note that we choose not to include Gradle idea task in the template but you are free to add it if you need it yourself.
+
+A properly configured Gradle project should be created at this time. 
 
 ## Building the App
 
