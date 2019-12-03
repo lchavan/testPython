@@ -46,8 +46,8 @@ apply from: 'gradle/release.gradle'
 
 // sourceCompatibility is the Language features that project is using.
 // targetCompatibility is the JVM bytecode that compile will target.
-sourceCompatibility = 11.0
-targetCompatibility = 11.0
+sourceCompatibility = 8
+targetCompatibility = 8
 
 group = 'com.optum.ct'
 
@@ -63,11 +63,24 @@ repositories {
 	maven { url 'https://repo1.uhc.com/artifactory/repo' }
 }
 
+configurations.all {
+	// Remove extra Logging implementations
+	exclude group: 'org.apache.logging.log4j', module: 'log4j-slf4j-impl'
+	exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+	exclude group: 'log4j', module: 'log4j'
+	// Jetty replaces tomcat
+	exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+}
+
 dependencies {
 	compile(
 		'org.springframework.boot:spring-boot-starter-actuator',
 		'org.springframework.boot:spring-boot-starter-logging',
 		'org.springframework.boot:spring-boot-starter-web',
+
+		// Use Jetty instead of default Tomcat.
+		'org.springframework.boot:spring-boot-starter-jetty'
+
 	)
 
 	runtime('org.springframework.boot:spring-boot-devtools')
@@ -82,4 +95,12 @@ dependencies {
 
 springBoot {
 	buildInfo()
+}
+
+
+bootJar {
+	manifest {
+		// TODO: fill in package name
+		attributes 'Start-Class': 'com.optum.ct.<packagename>.Application'
+	}
 }

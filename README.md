@@ -9,6 +9,8 @@
  This template is named **v5** because it is compatible with Gradle version 5.
 
 ### Java SDK prerequisites
+**Note: for now Java 8 is still used but it will be switched ot Java 11 eventually**
+
 This template assumes that Java 11 SDK will be used. You may install Java 11 SDK from AppStore. It is possible to have Java 8 installed side by side.
 
 Gradlew script uses JAVA_HOME to find the java binary to use so make sure your JAVA_HOME is pointing the corresponding SDK directory when using Gradle command line.
