@@ -19,8 +19,8 @@ ADD /build/libs/<servicename>-0.0.1-SNAPSHOT.jar /ct
 
 WORKDIR /ct
 
-RUN chown -R 1001:1001 /ct
-
-USER 1001
+# Make sure application.pid file can be created in the /ct directory by the jvm process
+RUN chgrp -R 0 /ct && \
+    chmod -R g=u /ct
 
 CMD ["java","-jar","<servicename>-0.0.1-SNAPSHOT.jar"]
