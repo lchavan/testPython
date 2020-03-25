@@ -32,7 +32,7 @@ apply plugin: 'io.spring.dependency-management'
 
 // Gradle scripts for providing CI/CD functionality. Comment them out as needed, based on project requirements.
 apply from: 'gradle/acceptanceTest.gradle'
-apply from: 'gradle/docker.gradle'
+// apply from: 'gradle/docker.gradle'
 apply from: 'gradle/lombok.gradle'
 apply from: 'gradle/integrationTest.gradle'
 apply from: 'gradle/reports.gradle'
@@ -100,6 +100,7 @@ springBoot {
 
 
 bootJar {
+	archiveFileName = "service.jar"
 	manifest {
 		// TODO: fill in package name
 		attributes 'Start-Class': 'com.optum.ct.<packagename>.Application'

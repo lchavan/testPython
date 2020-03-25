@@ -15,7 +15,7 @@ USER 0
 
 RUN mkdir /ct
 
-ADD /build/libs/<servicename>-0.0.1-SNAPSHOT.jar /ct
+ADD /build/libs/service.jar /ct
 
 WORKDIR /ct
 
@@ -23,4 +23,4 @@ WORKDIR /ct
 RUN chgrp -R 0 /ct && \
     chmod -R g=u /ct
 
-CMD ["java","-jar","<servicename>-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","service.jar"]
