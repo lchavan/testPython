@@ -3,7 +3,7 @@ buildscript {
 		// NOTE: Version 2.0.0 of Spring Boot changed the task name used to create a bootable jar from 'bootRepackage'
 		// to 'bootJar'. If version 1.5 or below are used, the file 'gradle/publish.gradle' will need to be updated
 		// so the 'artifactoryPublish' task depends on 'bootRepackage', rather than 'bootJar'.
-		springBootVersion = '2.2.1.RELEASE'
+		springBootVersion = '2.2.4.RELEASE'
 		groovyVersion = '2.4.13'
 		spockVersion = '1.1-groovy-2.4'
 	}
@@ -17,7 +17,8 @@ buildscript {
 			'org.unbroken-dome.gradle-plugins:gradle-testsets-plugin:2.2.1',
 			'io.freefair.gradle:lombok-plugin:4.1.4', // This is the plugin recommended on lombok project site
 			'net.researchgate:gradle-release:2.6.0',
-			'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.0',
+			// jfog does not support Gradle 6 for now.
+			//'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.0',
 			'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1',
 			"org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
 		)
@@ -39,7 +40,7 @@ apply from: 'gradle/sourceJars.gradle'
 apply from: 'gradle/fortify.gradle'
 
 // Depends on artifacts built in sourceJars, so this plugin must be applied afterwards
-apply from: 'gradle/publish.gradle'
+// apply from: 'gradle/publish.gradle'
 
 // Depends on tasks defined in docker and publish scripts, so this plugin must be applied after those two.
 apply from: 'gradle/release.gradle'
