@@ -1,5 +1,4 @@
-FROM docker.repo1.uhc.com/providerprefs/base-image/redhat-openjdk:latest
-FROM docker.repo1.uhc.com/providerprefs/base-image/fusemic001base:latest
+FROM docker.repo1.uhc.com/ct/base-images/alpine-java-8
 
 
 ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0
@@ -23,4 +22,4 @@ WORKDIR /ct
 RUN chgrp -R 0 /ct && \
     chmod -R g=u /ct
 
-CMD ["java","-jar","service.jar"]
+CMD ["java", "-XX:InitialRAMPercentage=25.0", "-XX:MaxRAMPercentage=95.0", "-jar","service.jar"]

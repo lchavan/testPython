@@ -3,7 +3,7 @@ buildscript {
 		// NOTE: Version 2.0.0 of Spring Boot changed the task name used to create a bootable jar from 'bootRepackage'
 		// to 'bootJar'. If version 1.5 or below are used, the file 'gradle/publish.gradle' will need to be updated
 		// so the 'artifactoryPublish' task depends on 'bootRepackage', rather than 'bootJar'.
-		springBootVersion = '2.2.4.RELEASE'
+		springBootVersion = '2.2.6.RELEASE'
 		groovyVersion = '2.4.13'
 		spockVersion = '1.1-groovy-2.4'
 	}
@@ -24,6 +24,9 @@ buildscript {
 		)
 	}
 }
+plugins{
+	id "com.gorylenko.gradle-git-properties" version "2.2.3"
+}
 
 apply plugin: 'java'
 apply plugin: 'groovy'
@@ -32,7 +35,7 @@ apply plugin: 'io.spring.dependency-management'
 
 // Gradle scripts for providing CI/CD functionality. Comment them out as needed, based on project requirements.
 apply from: 'gradle/acceptanceTest.gradle'
-// apply from: 'gradle/docker.gradle'
+apply from: 'gradle/docker.gradle'
 apply from: 'gradle/lombok.gradle'
 apply from: 'gradle/integrationTest.gradle'
 apply from: 'gradle/reports.gradle'
@@ -60,7 +63,7 @@ as unit and integration testing.
 """
 
 repositories {
-	mavenLocal()
+	// mavenLocal()
 	maven { url 'https://repo1.uhc.com/artifactory/repo' }
 }
 
@@ -88,10 +91,18 @@ dependencies {
 
 	testCompile(
 		'org.springframework.boot:spring-boot-starter-test',
-		"org.codehaus.groovy:groovy-all:$groovyVersion",
-		"org.spockframework:spock-core:$spockVersion",
-		"org.spockframework:spock-spring:$spockVersion",
-	)
+		//"org.codehaus.groovy:groovy-all:$groovyVersion",
+		//"org.spockframework:spock-core:$spockVersion",
+		//"org.spockframework:spock-spring:$spockVersion",
+	) {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
+
+tasks.withType(Test) {
+	maxParallelForks = 1
+	maxHeapSize = "748m"
+	useJUnitPlatform()
 }
 
 springBoot {
