@@ -1,9 +1,0 @@
-${AnsiColor.BLUE}  _    _ _    _  _____
-${AnsiColor.BLUE} | |  | | |  | |/ ____|
-${AnsiColor.BLUE} | |  | | |__| | |  __
-${AnsiColor.BLUE} | |  | |  __  | | |_ |
-${AnsiColor.BLUE} | |__| | |  | | |__| |
-${AnsiColor.BLUE}  \____/|_|  |_|\_____|
-
-${AnsiColor.BRIGHT_BLUE}:: UNITEDHEALTH GROUP :: Running Spring Boot ${spring-boot.version} :: ${spring.application.name}
-:: https://www.unitedhealthgroup.com ::${AnsiColor.DEFAULT}
